@@ -403,20 +403,6 @@
       z-index: 1;
     }
 
-    .fire-badge {
-      display: inline-flex;
-      align-items: center;
-      width: fit-content;
-      border-radius: 8px;
-      padding: 7px 9px;
-      background: #22130b;
-      color: #ffe27a;
-      border: 1px solid #ef9d25;
-      font-size: 0.82rem;
-      font-weight: 800;
-      box-shadow: 0 0 18px rgba(239, 157, 37, 0.34);
-    }
-
     .player-card h2 {
       margin: 0;
       font-size: 1.24rem;
@@ -862,7 +848,6 @@
             <div><dt>City</dt><dd>${player.city}</dd></div>
             <div><dt>Type</dt><dd>${player.type}</dd></div>
           </dl>
-          <span class="fire-badge">Fire player ${players.indexOf(player) + 1} / ${players.length}</span>
           <div class="tag-row">
             <span class="tag">${player.role}</span>
             <span class="tag">${player.type}</span>
