@@ -1,0 +1,259 @@
+CSK IPL 2026 Static Website Documentation
+=========================================
+
+Project Name
+------------
+csk-ipl-2026
+
+Live Website
+------------
+Production URL:
+https://csk-ipl-2026.vercel.app
+
+Deployment URL:
+https://csk-ipl-2026-b5v47wmrq-sahilnadafexcelligents-2577s-projects.vercel.app
+
+Vercel Dashboard / Inspect URL:
+https://vercel.com/sahilnadafexcelligents-2577s-projects/csk-ipl-2026/2CDMEh3VKZtvFQkoBvJ5e5DWiu3Z
+
+
+Project Purpose
+---------------
+This project is a normal static HTML website for the Chennai Super Kings IPL 2026 squad.
+It shows an interactive interface where users can search, filter, and view CSK team members
+with their role, Indian/Overseas type, state or region, and city.
+
+
+Technologies Used
+-----------------
+1. HTML
+   Used to create the page structure, content, player cards, modal, controls, and links.
+
+2. CSS
+   Used inside the same index.html file to design the page, hero section, cards, filters,
+   responsive layout, colors, spacing, and mobile view.
+
+3. JavaScript
+   Used inside the same index.html file to make the page interactive.
+   JavaScript handles:
+   - Search
+   - Role filters
+   - State/region filter
+   - Indian/Overseas filter
+   - Player detail modal
+   - Dynamic summary counters
+
+4. Vercel
+   Used to host and deploy the website online.
+
+5. Vercel CLI
+   Used through npx to log in, create the Vercel project, link the local folder, and deploy.
+
+
+Data Source
+-----------
+The CSK IPL 2026 squad list was taken from the official IPLT20 squad page:
+https://www.iplt20.com/teams/chennai-super-kings/squad/2026
+
+State and region entries use each player's known domestic base, birthplace, or country/region
+for overseas players.
+
+
+Project Files
+-------------
+index.html
+Main website file. It contains:
+- HTML page structure
+- CSS styling
+- JavaScript interactivity
+- CSK squad data
+
+package.json
+Small project metadata file used mainly to give Vercel a valid lowercase project name.
+The package name is:
+csk-ipl-2026
+
+.vercel
+Local folder created by Vercel CLI after linking the local project to the Vercel project.
+This folder stores local Vercel project metadata.
+
+.gitignore
+Created by Vercel CLI.
+It contains:
+.vercel
+
+This prevents the local Vercel metadata folder from being committed to git.
+
+PROJECT_DOCUMENTATION.txt
+This documentation file.
+
+
+Main Website Features
+---------------------
+1. Hero Section
+   Shows CSK branding, page title, short description, and quick stats.
+
+2. Player Search
+   Search by player name, role, state, region, city, type, or note.
+
+3. Role Tabs
+   Filter players by:
+   - All
+   - Batters
+   - WK-Batters
+   - All-Rounders
+   - Bowlers
+
+4. State / Region Filter
+   Dropdown filter generated automatically from the player data.
+
+5. Player Type Filter
+   Filter by:
+   - All players
+   - Indian
+   - Overseas
+
+6. Squad Summary
+   Shows live counts for:
+   - Players currently shown
+   - Indian players currently shown
+   - Overseas players currently shown
+   - Role groups currently shown
+
+7. Player Cards
+   Each player card shows:
+   - Player name
+   - Role
+   - State or region
+   - City
+   - Indian/Overseas type
+
+8. Detail Modal
+   Clicking "View details" opens a popup with more player information.
+
+9. Responsive Design
+   The page works on desktop and mobile screens.
+
+
+Important Commands Used
+-----------------------
+
+1. Check project folder files
+Command:
+Get-ChildItem -Force
+
+Purpose:
+Shows all files and folders in the current project directory.
+
+
+2. Check whether Vercel CLI is installed globally
+Command:
+Get-Command vercel -ErrorAction SilentlyContinue
+
+Purpose:
+Checks if the vercel command is available on the computer.
+
+
+3. Check whether npx is available
+Command:
+Get-Command npx -ErrorAction SilentlyContinue
+
+Purpose:
+Checks if npx is available. npx can run packages like Vercel CLI without installing them globally.
+
+
+4. Check embedded JavaScript syntax
+Command:
+node -e "const fs=require('fs'); const html=fs.readFileSync('index.html','utf8'); const match=html.match(/<script>([\s\S]*)<\/script>/); new Function(match[1]); console.log('embedded script syntax ok')"
+
+Purpose:
+Reads the JavaScript from index.html and checks that the syntax is valid.
+
+
+5. Log in to Vercel
+Command:
+npx vercel login
+
+Purpose:
+Starts Vercel login from the terminal.
+The CLI gives a browser/device login link.
+After login is complete, deployments can be made from this machine.
+
+
+6. Create a Vercel project
+Command:
+npx vercel projects add csk-ipl-2026
+
+Purpose:
+Creates a new Vercel project named csk-ipl-2026.
+This was needed because the folder name "Vercel test" had a capital letter and space,
+which Vercel does not allow as a project name.
+
+
+7. Link local folder to Vercel project
+Command:
+npx vercel link --project csk-ipl-2026 --yes
+
+Purpose:
+Links the local project folder to the Vercel project named csk-ipl-2026.
+This creates the local .vercel folder.
+
+
+8. Deploy to Vercel production
+Command:
+npx vercel --prod --yes
+
+Purpose:
+Deploys the website to Vercel production.
+
+
+9. Inspect a deployment
+Command:
+npx vercel inspect csk-ipl-2026.vercel.app
+
+Purpose:
+Shows deployment information, build status, and project details for the live site.
+
+
+10. Deploy again after changes
+Command:
+npx vercel --prod --yes
+
+Purpose:
+Use this command again whenever index.html or other project files are updated and you want
+to publish the latest version online.
+
+
+How To Open Locally
+-------------------
+Because this is a plain static HTML project, no development server is required.
+
+Option 1:
+Double-click index.html and open it in a browser.
+
+Option 2:
+Open the file path in a browser:
+A:\Vercel test\index.html
+
+
+How To Update The Website
+-------------------------
+1. Edit index.html.
+2. Save the file.
+3. Test locally by opening index.html in the browser.
+4. Run this command to deploy:
+
+npx vercel --prod --yes
+
+5. Open the live website:
+https://csk-ipl-2026.vercel.app
+
+
+Notes
+-----
+- This project does not use React, Next.js, Vite, or any backend server.
+- This project does not need npm install for normal use.
+- The website is hosted as a static site on Vercel.
+- The live production alias is:
+  https://csk-ipl-2026.vercel.app
+

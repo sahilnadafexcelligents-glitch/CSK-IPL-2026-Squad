@@ -1,0 +1,8 @@
+{
+  "name": "csk-ipl-2026",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "vercel dev"
+  }
+}
