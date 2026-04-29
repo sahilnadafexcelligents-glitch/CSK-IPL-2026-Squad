@@ -4,5 +4,8 @@
   "private": true,
   "scripts": {
     "start": "vercel dev"
+  },
+  "dependencies": {
+    "graphify": "^1.0.0"
   }
 }
