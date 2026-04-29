@@ -6,16 +6,50 @@
   <title>CSK IPL 2026 Squad</title>
   <style>
     :root {
-      --bg: #f8f9fa;
+      --bg: #0c0f14;
+      --bg-subtle: #11151e;
+      --surface: #161b25;
+      --surface-hover: #1c2230;
+      --text: #f0f2f5;
+      --text-secondary: #8b95a8;
+      --border: #252d3a;
+      --border-hover: #3a4457;
+      --accent: #f5c542;
+      --accent-glow: rgba(245, 197, 66, 0.15);
+      --accent-light: rgba(245, 197, 66, 0.1);
+      --accent-text: #d4a017;
+      --radius: 14px;
+      --shadow: 0 2px 8px rgba(0,0,0,0.2);
+      --shadow-hover: 0 8px 24px rgba(0,0,0,0.35), 0 0 0 1px var(--border-hover);
+      --hero-gradient: linear-gradient(135deg, #0c0f14 0%, #151a25 50%, #111820 100%);
+      --card-gradient: linear-gradient(180deg, var(--surface) 0%, var(--bg-subtle) 100%);
+      --toggle-bg: #252d3a;
+      --toggle-knob: #f5c542;
+      --input-bg: #1a2030;
+      --modal-overlay: rgba(0, 0, 0, 0.65);
+    }
+
+    :root.light {
+      --bg: #f5f6f8;
+      --bg-subtle: #eef0f4;
       --surface: #ffffff;
-      --text: #1a1a1a;
-      --text-secondary: #6b7280;
-      --border: #e5e7eb;
+      --surface-hover: #f8f9fb;
+      --text: #111318;
+      --text-secondary: #5f6b7e;
+      --border: #e2e5ec;
+      --border-hover: #c8cdd6;
       --accent: #d4a017;
+      --accent-glow: rgba(212, 160, 23, 0.12);
       --accent-light: #fef3c7;
-      --radius: 12px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
-      --shadow-hover: 0 4px 12px rgba(0,0,0,0.06);
+      --accent-text: #92400e;
+      --shadow: 0 1px 4px rgba(0,0,0,0.06);
+      --shadow-hover: 0 6px 20px rgba(0,0,0,0.1);
+      --hero-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9fb 100%);
+      --card-gradient: linear-gradient(180deg, var(--surface) 0%, var(--bg-subtle) 100%);
+      --toggle-bg: #e2e5ec;
+      --toggle-knob: #111318;
+      --input-bg: #ffffff;
+      --modal-overlay: rgba(0, 0, 0, 0.35);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,16 +60,83 @@
       color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.3s, color 0.3s;
     }
 
     img { max-width: 100%; display: block; }
     button, input, select { font: inherit; }
 
+    /* Theme toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 6px 10px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.2s;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    .toggle-track {
+      width: 44px;
+      height: 24px;
+      background: var(--toggle-bg);
+      border-radius: 12px;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .toggle-knob {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: var(--toggle-knob);
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    :root:not(.light) .toggle-knob {
+      transform: translateX(20px);
+    }
+
+    .toggle-icon {
+      font-size: 14px;
+      line-height: 1;
+      user-select: none;
+    }
+
     /* Hero */
     .hero {
-      background: var(--surface);
+      background: var(--hero-gradient);
       border-bottom: 1px solid var(--border);
-      padding: 48px 24px;
+      padding: 56px 24px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -60%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .hero-inner {
@@ -59,9 +160,10 @@
       height: 64px;
       object-fit: contain;
       border-radius: var(--radius);
-      background: var(--bg);
+      background: var(--surface);
       padding: 8px;
       border: 1px solid var(--border);
+      box-shadow: 0 2px 12px var(--accent-glow);
     }
 
     .hero h1 {
@@ -86,11 +188,17 @@
     }
 
     .stat {
-      background: var(--bg);
+      background: var(--card-gradient);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 20px;
       text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .stat:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
     }
 
     .stat strong {
@@ -139,17 +247,17 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 12px 14px;
-      background: var(--surface);
+      background: var(--input-bg);
       color: var(--text);
       font-size: 0.95rem;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     }
 
     .field input:focus,
     .field select:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-light);
+      box-shadow: 0 0 0 3px var(--accent-glow);
     }
 
     /* Tabs */
@@ -164,23 +272,25 @@
       border: 1px solid var(--border);
       background: var(--surface);
       color: var(--text-secondary);
-      border-radius: var(--radius);
-      padding: 10px 18px;
+      border-radius: 50px;
+      padding: 10px 20px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.9rem;
-      transition: all 0.15s;
+      font-size: 0.88rem;
+      transition: all 0.2s;
     }
 
     .tab:hover {
       border-color: var(--accent);
       color: var(--accent);
+      background: var(--accent-light);
     }
 
     .tab.active {
-      background: var(--text);
-      color: var(--surface);
-      border-color: var(--text);
+      background: var(--accent);
+      color: #111;
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px var(--accent-glow);
     }
 
     /* Summary */
@@ -192,17 +302,25 @@
     }
 
     .summary-item {
-      background: var(--surface);
+      background: var(--card-gradient);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 20px;
+      transition: border-color 0.2s;
+    }
+
+    .summary-item:hover {
+      border-color: var(--border-hover);
     }
 
     .summary-item strong {
       display: block;
       font-size: 1.5rem;
       font-weight: 700;
-      color: var(--text);
+      background: linear-gradient(135deg, var(--accent) 0%, #e8b84f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       line-height: 1;
       margin-bottom: 6px;
     }
@@ -221,7 +339,7 @@
     }
 
     .player-card {
-      background: var(--surface);
+      background: var(--card-gradient);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 24px;
@@ -229,13 +347,14 @@
       flex-direction: column;
       gap: 16px;
       box-shadow: var(--shadow);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
       cursor: default;
     }
 
     .player-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-4px);
       box-shadow: var(--shadow-hover);
+      border-color: var(--border-hover);
     }
 
     .player-top {
@@ -254,14 +373,15 @@
 
     .role {
       display: inline-block;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       padding: 4px 10px;
-      border-radius: 6px;
+      border-radius: 50px;
       background: var(--accent-light);
-      color: #92400e;
+      color: var(--accent);
+      border: 1px solid var(--accent-glow);
     }
 
     .player-photo {
@@ -340,23 +460,26 @@
       margin-top: 4px;
       width: 100%;
       padding: 12px;
-      border: 1px solid var(--text);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      background: var(--text);
-      color: var(--surface);
-      font-weight: 600;
-      font-size: 0.9rem;
+      background: var(--accent);
+      color: #111;
+      font-weight: 700;
+      font-size: 0.88rem;
       cursor: pointer;
-      transition: opacity 0.15s;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
 
     .details-btn:hover {
-      opacity: 0.85;
+      background: #e8b84f;
+      box-shadow: 0 4px 16px var(--accent-glow);
     }
 
     .empty {
       display: none;
-      padding: 48px;
+      padding: 56px 24px;
       text-align: center;
       color: var(--text-secondary);
       font-size: 1rem;
@@ -366,23 +489,23 @@
     }
 
     .note {
-      margin-top: 40px;
-      padding-top: 24px;
+      margin-top: 48px;
+      padding-top: 28px;
       border-top: 1px solid var(--border);
       color: var(--text-secondary);
       font-size: 0.88rem;
     }
 
     .note a {
-      color: var(--text);
+      color: var(--accent);
       font-weight: 600;
       text-decoration: none;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
     }
 
     .note a:hover {
       border-bottom-color: var(--accent);
-      color: var(--accent);
     }
 
     /* Modal */
@@ -393,8 +516,8 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(4px);
+      background: var(--modal-overlay);
+      backdrop-filter: blur(8px);
       z-index: 50;
     }
 
@@ -405,10 +528,11 @@
     .modal-panel {
       width: min(480px, 100%);
       background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.3);
       overflow: hidden;
-      animation: modalIn 0.2s ease;
+      animation: modalIn 0.25s ease;
     }
 
     @keyframes modalIn {
@@ -503,9 +627,17 @@
       .grid { grid-template-columns: 1fr; }
     }
   </style>
-<base target="_blank">
+  <base target="_blank">
 </head>
 <body>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light mode">
+    <span class="toggle-icon" aria-hidden="true">☀️</span>
+    <div class="toggle-track">
+      <div class="toggle-knob"></div>
+    </div>
+    <span class="toggle-icon" aria-hidden="true">🌙</span>
+  </button>
+
   <header class="hero">
     <div class="hero-inner">
       <section>
@@ -749,6 +881,20 @@
     closeModal.addEventListener("click", () => modal.classList.remove("open"));
     modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("open"); });
     window.addEventListener("keydown", e => { if (e.key === "Escape") modal.classList.remove("open"); });
+
+    /* Theme toggle */
+    const themeToggle = document.querySelector("#themeToggle");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "light" || (!savedTheme && !prefersDark)) {
+      document.documentElement.classList.add("light");
+    }
+
+    themeToggle.addEventListener("click", () => {
+      document.documentElement.classList.toggle("light");
+      localStorage.setItem("theme", document.documentElement.classList.contains("light") ? "light" : "dark");
+    });
   </script>
 </body>
 </html>
