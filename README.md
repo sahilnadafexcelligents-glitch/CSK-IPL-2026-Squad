@@ -23,19 +23,11 @@ A static website showcasing the Chennai Super Kings IPL 2026 squad with interact
 
 ## Getting Started
 
-### Option 1: Open directly
-
-Double-click `index.html` or open it in a browser:
-
-```
-file:///A:/Vercel%20test/index.html
-```
-
-### Option 2: Local dev server
-
 ```bash
 npm start
 ```
+
+Or open `index.html` in your browser.
 
 ## Deploy
 
