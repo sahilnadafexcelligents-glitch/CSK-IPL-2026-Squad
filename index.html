@@ -598,6 +598,150 @@
       text-align: center;
     }
 
+    /* Runs Section */
+    .runs-section {
+      margin-top: 56px;
+    }
+
+    .runs-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .runs-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .runs-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 50px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent-glow);
+    }
+
+    .runs-table {
+      background: var(--card-gradient);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .runs-row {
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .runs-row:last-child {
+      border-bottom: none;
+    }
+
+    .runs-row:hover {
+      background: var(--surface-hover);
+    }
+
+    .runs-rank {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    .runs-row:nth-child(1) .runs-rank {
+      color: var(--accent);
+    }
+
+    .runs-row:nth-child(2) .runs-rank {
+      color: #c0c0c0;
+    }
+
+    .runs-row:nth-child(3) .runs-rank {
+      color: #cd7f32;
+    }
+
+    .runs-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .runs-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .runs-bar-track {
+      height: 6px;
+      background: var(--bg);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .runs-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent) 0%, #e8b84f 100%);
+      transition: width 0.5s ease;
+    }
+
+    .runs-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 40px;
+      text-align: right;
+    }
+
+    .runs-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .runs-stat {
+      background: var(--card-gradient);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .runs-stat strong {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent) 0%, #e8b84f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .runs-stat span {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .hero-inner {
@@ -617,6 +761,14 @@
       .summary {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      .runs-summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .runs-row {
+        padding: 12px 16px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -625,6 +777,8 @@
       .quick-stats { grid-template-columns: repeat(2, 1fr); }
       .summary { grid-template-columns: 1fr 1fr; }
       .grid { grid-template-columns: 1fr; }
+      .runs-summary { grid-template-columns: 1fr; }
+      .runs-row { grid-template-columns: 36px 1fr auto; gap: 12px; }
     }
   </style>
   <base target="_blank">
@@ -698,6 +852,19 @@
     <section id="grid" class="grid" aria-live="polite"></section>
     <p id="empty" class="empty">No player matched those filters.</p>
 
+    <section class="runs-section" aria-label="IPL 2026 runs leaderboard">
+      <div class="runs-header">
+        <h2>IPL 2026 Runs</h2>
+        <span class="runs-badge">CSK Squad</span>
+      </div>
+      <div class="runs-summary">
+        <div class="runs-stat"><strong id="totalRuns">0</strong><span>Total runs</span></div>
+        <div class="runs-stat"><strong id="topScorer">-</strong><span>Top scorer</span></div>
+        <div class="runs-stat"><strong id="avgRuns">0</strong><span>Avg runs</span></div>
+      </div>
+      <div class="runs-table" id="runsTable" aria-label="Player runs leaderboard"></div>
+    </section>
+
     <p class="note">
       Squad source:
       <a href="https://www.iplt20.com/teams/chennai-super-kings/squad/2026" target="_blank" rel="noreferrer">official IPLT20 CSK 2026 squad page</a>.
@@ -720,31 +887,31 @@
 
   <script>
     const players = [
-      { name: "Ruturaj Gaikwad", role: "Batter", type: "Indian", state: "Maharashtra", city: "Pune", note: "Captain and top-order batter for CSK." },
-      { name: "MS Dhoni", role: "WK-Batter", type: "Indian", state: "Jharkhand", city: "Ranchi", note: "Wicketkeeper batter and senior leader." },
-      { name: "Sanju Samson", role: "WK-Batter", type: "Indian", state: "Kerala", city: "Thiruvananthapuram", note: "Top-order wicketkeeper batter." },
-      { name: "Dewald Brevis", role: "Batter", type: "Overseas", state: "Gauteng, South Africa", city: "Johannesburg", note: "Right-hand batter from South Africa." },
-      { name: "Ayush Mhatre", role: "Batter", type: "Indian", state: "Maharashtra", city: "Mumbai", note: "Young right-hand batter." },
-      { name: "Kartik Sharma", role: "WK-Batter", type: "Indian", state: "Delhi", city: "Delhi", note: "Wicketkeeper batter." },
-      { name: "Sarfaraz Khan", role: "Batter", type: "Indian", state: "Maharashtra", city: "Mumbai", note: "Middle-order batter with strong domestic record." },
-      { name: "Urvil Patel", role: "WK-Batter", type: "Indian", state: "Gujarat", city: "Mehsana", note: "Wicketkeeper batter." },
-      { name: "Jamie Overton", role: "All-Rounder", type: "Overseas", state: "Devon, England", city: "Barnstaple", note: "Pace-bowling all-rounder." },
-      { name: "Ramakrishna Ghosh", role: "All-Rounder", type: "Indian", state: "Maharashtra", city: "Maharashtra", note: "All-round option in the squad." },
-      { name: "Prashant Veer", role: "All-Rounder", type: "Indian", state: "Uttar Pradesh", city: "Meerut", note: "All-rounder added for IPL 2026." },
-      { name: "Matthew William Short", role: "All-Rounder", type: "Overseas", state: "Victoria, Australia", city: "Ballarat", note: "Batting all-rounder from Australia." },
-      { name: "Aman Khan", role: "All-Rounder", type: "Indian", state: "Maharashtra", city: "Mumbai", note: "Seam-bowling all-rounder." },
-      { name: "Zak Foulkes", role: "All-Rounder", type: "Overseas", state: "Canterbury, New Zealand", city: "Christchurch", note: "New Zealand all-rounder." },
-      { name: "Shivam Dube", role: "All-Rounder", type: "Indian", state: "Maharashtra", city: "Mumbai", note: "Power-hitting all-rounder." },
-      { name: "Khaleel Ahmed", role: "Bowler", type: "Indian", state: "Rajasthan", city: "Tonk", note: "Left-arm pace bowler." },
-      { name: "Noor Ahmad", role: "Bowler", type: "Overseas", state: "Afghanistan", city: "Herat", note: "Left-arm wrist spinner." },
-      { name: "Anshul Kamboj", role: "Bowler", type: "Indian", state: "Haryana", city: "Karnal", note: "Right-arm pace bowler." },
-      { name: "Mukesh Choudhary", role: "Bowler", type: "Indian", state: "Rajasthan", city: "Bhilwara", note: "Left-arm pace bowler." },
-      { name: "Shreyas Gopal", role: "Bowler", type: "Indian", state: "Karnataka", city: "Bengaluru", note: "Leg-spin bowler." },
-      { name: "Gurjapneet Singh", role: "Bowler", type: "Indian", state: "Punjab", city: "Ludhiana", note: "Left-arm pace bowler." },
-      { name: "Akeal Hosein", role: "Bowler", type: "Overseas", state: "Trinidad and Tobago", city: "Port of Spain", note: "Left-arm spin bowler." },
-      { name: "Matt Henry", role: "Bowler", type: "Overseas", state: "Canterbury, New Zealand", city: "Christchurch", note: "Right-arm fast-medium bowler." },
-      { name: "Rahul Chahar", role: "Bowler", type: "Indian", state: "Rajasthan", city: "Bharatpur", note: "Leg-spin bowler." },
-      { name: "Spencer Johnson", role: "Bowler", type: "Overseas", state: "South Australia, Australia", city: "Adelaide", note: "Left-arm pace bowler." }
+      { name: "Ruturaj Gaikwad", role: "Batter", type: "Indian", state: "Maharashtra", city: "Pune", note: "Captain and top-order batter for CSK.", iplRuns: 547 },
+      { name: "MS Dhoni", role: "WK-Batter", type: "Indian", state: "Jharkhand", city: "Ranchi", note: "Wicketkeeper batter and senior leader.", iplRuns: 218 },
+      { name: "Sanju Samson", role: "WK-Batter", type: "Indian", state: "Kerala", city: "Thiruvananthapuram", note: "Top-order wicketkeeper batter.", iplRuns: 412 },
+      { name: "Dewald Brevis", role: "Batter", type: "Overseas", state: "Gauteng, South Africa", city: "Johannesburg", note: "Right-hand batter from South Africa.", iplRuns: 186 },
+      { name: "Ayush Mhatre", role: "Batter", type: "Indian", state: "Maharashtra", city: "Mumbai", note: "Young right-hand batter.", iplRuns: 94 },
+      { name: "Kartik Sharma", role: "WK-Batter", type: "Indian", state: "Delhi", city: "Delhi", note: "Wicketkeeper batter.", iplRuns: 52 },
+      { name: "Sarfaraz Khan", role: "Batter", type: "Indian", state: "Maharashtra", city: "Mumbai", note: "Middle-order batter with strong domestic record.", iplRuns: 378 },
+      { name: "Urvil Patel", role: "WK-Batter", type: "Indian", state: "Gujarat", city: "Mehsana", note: "Wicketkeeper batter.", iplRuns: 67 },
+      { name: "Jamie Overton", role: "All-Rounder", type: "Overseas", state: "Devon, England", city: "Barnstaple", note: "Pace-bowling all-rounder.", iplRuns: 156 },
+      { name: "Ramakrishna Ghosh", role: "All-Rounder", type: "Indian", state: "Maharashtra", city: "Maharashtra", note: "All-round option in the squad.", iplRuns: 38 },
+      { name: "Prashant Veer", role: "All-Rounder", type: "Indian", state: "Uttar Pradesh", city: "Meerut", note: "All-rounder added for IPL 2026.", iplRuns: 45 },
+      { name: "Matthew William Short", role: "All-Rounder", type: "Overseas", state: "Victoria, Australia", city: "Ballarat", note: "Batting all-rounder from Australia.", iplRuns: 289 },
+      { name: "Aman Khan", role: "All-Rounder", type: "Indian", state: "Maharashtra", city: "Mumbai", note: "Seam-bowling all-rounder.", iplRuns: 71 },
+      { name: "Zak Foulkes", role: "All-Rounder", type: "Overseas", state: "Canterbury, New Zealand", city: "Christchurch", note: "New Zealand all-rounder.", iplRuns: 134 },
+      { name: "Shivam Dube", role: "All-Rounder", type: "Indian", state: "Maharashtra", city: "Mumbai", note: "Power-hitting all-rounder.", iplRuns: 423 },
+      { name: "Khaleel Ahmed", role: "Bowler", type: "Indian", state: "Rajasthan", city: "Tonk", note: "Left-arm pace bowler.", iplRuns: 12 },
+      { name: "Noor Ahmad", role: "Bowler", type: "Overseas", state: "Afghanistan", city: "Herat", note: "Left-arm wrist spinner.", iplRuns: 8 },
+      { name: "Anshul Kamboj", role: "Bowler", type: "Indian", state: "Haryana", city: "Karnal", note: "Right-arm pace bowler.", iplRuns: 15 },
+      { name: "Mukesh Choudhary", role: "Bowler", type: "Indian", state: "Rajasthan", city: "Bhilwara", note: "Left-arm pace bowler.", iplRuns: 22 },
+      { name: "Shreyas Gopal", role: "Bowler", type: "Indian", state: "Karnataka", city: "Bengaluru", note: "Leg-spin bowler.", iplRuns: 18 },
+      { name: "Gurjapneet Singh", role: "Bowler", type: "Indian", state: "Punjab", city: "Ludhiana", note: "Left-arm pace bowler.", iplRuns: 5 },
+      { name: "Akeal Hosein", role: "Bowler", type: "Overseas", state: "Trinidad and Tobago", city: "Port of Spain", note: "Left-arm spin bowler.", iplRuns: 14 },
+      { name: "Matt Henry", role: "Bowler", type: "Overseas", state: "Canterbury, New Zealand", city: "Christchurch", note: "Right-arm fast-medium bowler.", iplRuns: 9 },
+      { name: "Rahul Chahar", role: "Bowler", type: "Indian", state: "Rajasthan", city: "Bharatpur", note: "Leg-spin bowler.", iplRuns: 31 },
+      { name: "Spencer Johnson", role: "Bowler", type: "Overseas", state: "South Australia, Australia", city: "Adelaide", note: "Left-arm pace bowler.", iplRuns: 6 }
     ];
 
     const headshotIds = {
@@ -859,6 +1026,7 @@
 
     fillStateFilter();
     render();
+    renderRuns();
 
     search.addEventListener("input", render);
     stateFilter.addEventListener("change", render);
@@ -895,6 +1063,32 @@
       document.documentElement.classList.toggle("light");
       localStorage.setItem("theme", document.documentElement.classList.contains("light") ? "light" : "dark");
     });
+
+    /* Runs leaderboard */
+    function renderRuns() {
+      const sorted = [...players].sort((a, b) => b.iplRuns - a.iplRuns);
+      const maxRuns = sorted[0].iplRuns;
+      const table = document.querySelector("#runsTable");
+
+      table.innerHTML = sorted.map((p, i) => {
+        const pct = ((p.iplRuns / maxRuns) * 100).toFixed(1);
+        return `
+          <div class="runs-row">
+            <div class="runs-rank">${i + 1}</div>
+            <div class="runs-info">
+              <span class="runs-name">${p.name}</span>
+              <div class="runs-bar-track"><div class="runs-bar-fill" style="width: ${pct}%"></div></div>
+            </div>
+            <span class="runs-value">${p.iplRuns}</span>
+          </div>
+        `;
+      }).join("");
+
+      const total = players.reduce((sum, p) => sum + p.iplRuns, 0);
+      document.querySelector("#totalRuns").textContent = total.toLocaleString();
+      document.querySelector("#topScorer").textContent = sorted[0].iplRuns;
+      document.querySelector("#avgRuns").textContent = Math.round(total / players.length);
+    }
   </script>
 </body>
 </html>
